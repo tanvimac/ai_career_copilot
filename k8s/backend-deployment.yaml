@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ai-career-backend:v1
+        image: ai-career-backend:latest
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000
