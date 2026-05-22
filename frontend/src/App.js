@@ -9,7 +9,7 @@ import LoadingOverlay from "./components/sections/LoadingOverlay";
 import ErrorToast from "./components/sections/ErrorToast";
 import { buildDerived, ringMetrics } from "./utils/analysis";
 
-const API_URL = "http://127.0.0.1:8000/upload-resume";
+import { uploadResumeUrl } from "./lib/api";
 
 function App() {
   const [selectedPaths, setSelectedPaths] = useState([]);
@@ -35,7 +35,7 @@ function App() {
     try {
       const fd = new FormData();
       fd.append("file", file);
-      const response = await fetch(API_URL, { method: "POST", body: fd });
+      const response = await fetch(uploadResumeUrl, { method: "POST", body: fd });
       if (!response.ok) throw new Error("AI analysis failed. Please retry.");
       const data = await response.json();
       setResult(data);

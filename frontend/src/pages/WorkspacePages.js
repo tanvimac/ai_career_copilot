@@ -18,7 +18,7 @@ import { UploadCloud, Bot, CheckCircle2, Trophy, ArrowRight } from "lucide-react
 import GlassCard from "../components/ui/GlassCard";
 import { GOALS, INTERESTS, ROADMAP, MARKET } from "../lib/mockData";
 
-const API_URL = "http://127.0.0.1:8000/upload-resume";
+import { uploadResumeUrl } from "../lib/api";
 
 function PillPicker({ items, value, onChange }) {
   return (
@@ -119,7 +119,7 @@ function ResumeStudio({ resume, dispatch, onboarding }) {
     try {
       const fd = new FormData();
       fd.append("file", resume.file);
-      const res = await fetch(API_URL, { method: "POST", body: fd });
+      const res = await fetch(uploadResumeUrl, { method: "POST", body: fd });
       if (!res.ok) throw new Error("Unable to analyze resume now.");
       const data = await res.json();
       dispatch({ type: "SET_RESUME_RESULT", payload: data });

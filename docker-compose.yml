@@ -4,12 +4,21 @@ services:
 
   backend:
     build: ./backend
+    container_name: backend
+    networks:
+      default:
+        aliases:
+          - backend-service
+
     ports:
       - "8000:8000"
 
   frontend:
     build: ./frontend
+    container_name: frontend
+
     ports:
-      - "3000:3000"
+      - "3000:80"
+
     depends_on:
       - backend
