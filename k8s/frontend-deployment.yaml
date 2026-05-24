@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ai-career-frontend:latest
-        imagePullPolicy: IfNotPresent
+        image: tanvishar/ai-career-frontend:latest
+        imagePullPolicy: Never
         ports:
         - containerPort: 80
         volumeMounts:

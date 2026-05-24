@@ -3,23 +3,37 @@ pipeline {
 
     stages {
 
-        stage('Build Frontend Docker Image') {
+        stage('Checkout Code') {
             steps {
-                echo 'Building Frontend Image...'
-                sh 'docker build -t tanvishar/ai-career-frontend ./frontend'
+                git 'https://github.com/tanvimac/ai_career_copilot.git'
             }
         }
 
-        stage('Build Backend Docker Image') {
+        stage('Build Frontend Image') {
             steps {
-                echo 'Building Backend Image...'
-                sh 'docker build -t tanvishar/ai-career-backend ./backend'
+                sh 'docker build -t tanvishar/ai-career-frontend:latest ./frontend'
             }
         }
 
-        stage('Show Docker Images') {
+        stage('Build Backend Image') {
             steps {
-                sh 'docker images'
+                sh 'docker build -t tanvishar/ai-career-backend:latest ./backend'
+            }
+        }
+
+        stage('Deploy to Kubernetes') {
+            steps {
+                sh 'kubectl apply -f k8s/backend-deployment.yaml'
+                sh 'kubectl apply -f k8s/backend-service.yaml'
+                sh 'kubectl apply -f k8s/frontend-deployment.yaml'
+                sh 'kubectl apply -f k8s/frontend-service.yaml'
+            }
+        }
+
+        stage('Restart Kubernetes Pods') {
+            steps {
+                sh 'kubectl rollout restart deployment backend-deployment'
+                sh 'kubectl rollout restart deployment frontend-deployment'
             }
         }
 
