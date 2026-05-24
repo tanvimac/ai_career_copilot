@@ -5,7 +5,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/tanvimac/ai_career_copilot.git'
+                git branch: 'main', url: 'https://github.com/tanvimac/ai_career_copilot.git'
             }
         }
 
