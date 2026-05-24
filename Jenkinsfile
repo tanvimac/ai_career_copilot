@@ -3,33 +3,30 @@ pipeline {
 
     stages {
 
-        stage('Check Docker') {
+        stage('Clone Repository') {
             steps {
-                sh 'docker --version'
+                echo 'Cloning Repository...'
+                git 'https://github.com/tanvimac/ai_career_copilot.git'
             }
         }
 
-        stage('Check Kubernetes') {
+        stage('Build Frontend Docker Image') {
             steps {
-                sh 'kubectl version --client'
+                echo 'Building Frontend Image...'
+                sh 'docker build -t tanvishar/ai-career-frontend ./frontend'
             }
         }
 
-        stage('Build Backend Image') {
+        stage('Build Backend Docker Image') {
             steps {
-                sh 'docker build -t ai-backend ./backend'
+                echo 'Building Backend Image...'
+                sh 'docker build -t tanvishar/ai-career-backend ./backend'
             }
         }
 
-        stage('Build Frontend Image') {
+        stage('Show Docker Images') {
             steps {
-                sh 'docker build -t ai-frontend ./frontend'
-            }
-        }
-
-        stage('Deploy to Kubernetes') {
-            steps {
-                sh 'kubectl apply -f k8s/'
+                sh 'docker images'
             }
         }
 
